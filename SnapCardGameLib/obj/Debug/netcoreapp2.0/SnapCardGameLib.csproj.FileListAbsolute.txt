@@ -1,0 +1,9 @@
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\obj\Debug\netcoreapp2.0\SnapCardGameLib.csproj.CoreCompileInputs.cache
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\obj\Debug\netcoreapp2.0\SnapCardGameLib.AssemblyInfoInputs.cache
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\obj\Debug\netcoreapp2.0\SnapCardGameLib.AssemblyInfo.cs
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\obj\Debug\netcoreapp2.0\SnapCardGameLib.csprojResolveAssemblyReference.cache
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\bin\Debug\netcoreapp2.0\SnapCardGameLib.deps.json
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\bin\Debug\netcoreapp2.0\SnapCardGameLib.dll
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\bin\Debug\netcoreapp2.0\SnapCardGameLib.pdb
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\obj\Debug\netcoreapp2.0\SnapCardGameLib.dll
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGameLib\obj\Debug\netcoreapp2.0\SnapCardGameLib.pdb

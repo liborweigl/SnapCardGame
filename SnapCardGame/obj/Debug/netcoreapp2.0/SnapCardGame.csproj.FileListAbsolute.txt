@@ -1,0 +1,13 @@
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\bin\Debug\netcoreapp2.0\SnapCardGame.deps.json
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\bin\Debug\netcoreapp2.0\SnapCardGame.runtimeconfig.json
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\bin\Debug\netcoreapp2.0\SnapCardGame.runtimeconfig.dev.json
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\bin\Debug\netcoreapp2.0\SnapCardGame.dll
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\bin\Debug\netcoreapp2.0\SnapCardGame.pdb
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\obj\Debug\netcoreapp2.0\SnapCardGame.csprojResolveAssemblyReference.cache
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\obj\Debug\netcoreapp2.0\SnapCardGame.csproj.CoreCompileInputs.cache
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\obj\Debug\netcoreapp2.0\SnapCardGame.AssemblyInfoInputs.cache
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\obj\Debug\netcoreapp2.0\SnapCardGame.AssemblyInfo.cs
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\obj\Debug\netcoreapp2.0\SnapCardGame.dll
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\obj\Debug\netcoreapp2.0\SnapCardGame.pdb
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\bin\Debug\netcoreapp2.0\SnapCardGameLib.dll
+C:\Users\usirus\Documents\Visual Studio 2017\Projects\SnapCardGame\SnapCardGame\bin\Debug\netcoreapp2.0\SnapCardGameLib.pdb
