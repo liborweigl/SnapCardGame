@@ -6,14 +6,35 @@ using System.Text;
 
 namespace SnapCardGameLib
 {
-    public class CentralPile<T>  : IEnumerable<T>  where T : ICardBase
+   public class CardArgs : EventArgs
+   {
+        public ICardBase cardBase;
+   }
+
+public class CentralPile<T>  : IEnumerable<T>  where T : ICardBase
     {
+       public event EventHandler<CardArgs> CardChange {
+            add { _cardChange += value; }
+            remove { _cardChange -= value; }
+        }
+
+        private EventHandler<CardArgs> _cardChange;
+
+
         Stack<T> CentralCardPile { get; set; }
-        
+
+        public int RoundNumber { get; set; }
+
+        public CentralPile()
+        {
+            CentralCardPile = new Stack<T>();
+        }
 
         public void AddCard(T cardBase)
         {
             CentralCardPile.Push(cardBase);
+            _cardChange?.Invoke(this, new CardArgs() { cardBase = cardBase });
+
         }
 
         public void Empty()

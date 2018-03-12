@@ -50,6 +50,28 @@ namespace SnapCardGameLib.Card
             }
         }
 
+        public IEnumerable<IList<CardBase>> CreatePileForEachPlayer(int playerCount)
+        {
+            var discard = pile.Count % playerCount;
+            var cardPerPlayer = (pile.Count - discard) / playerCount;
+
+            int i = 0;
+            int seq = new int();
+          
+            while (i < playerCount)
+            {
+                IList<CardBase> list = new List<CardBase>();
+                 seq += cardPerPlayer;
+                for (int j = cardPerPlayer * i; j < seq; j++)
+                {
+                    list.Add(pile[j]);
+                }
+                i++;
+                yield return list;
+            }
+         
+        }
+
     }
 
 

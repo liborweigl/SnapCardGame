@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SnapCardGameLib.Player
+namespace SnapCardGameLib.Player_
 {
     class PlayerStack<T>  : IEnumerable<T> where T: class, ICardBase
     {
@@ -32,6 +32,8 @@ namespace SnapCardGameLib.Player
         {
             CardPile.Enqueue(card);
         }
+
+        public bool HasItem() => CardPile.Count > 0 ? true : false;
 
         public IEnumerator<T> GetEnumerator()
         {
