@@ -3,21 +3,32 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SnapCardGameLib.Player_
 {
-    public class Player : IPlayer , IDisposable
+    public class Player : IPlayer, IDisposable
     {
         public string Name { get; set; }
         public ICardBase PreviousCard { get; set; }
         public ICardBase TopPileCard { get; set; }
+        public int ReactionTime { get; set; }
 
-        private static readonly object _lockerPile = new object();
+        static readonly object _lockerPile = new object();
+      
+        public static int RoundCount = 0;
+        public int PlayerRound = 0;
+ 
 
         public static EventHandler<EventArgs> Snap;
-
+        
+        public static AutoResetEvent autoResetEvent = new AutoResetEvent(false);
+        static Barrier barrier = new Barrier(0, (a) => {
+            autoResetEvent.Set();
+        });
         Thread worker;
         EventWaitHandle wh;
+      
 
         private PlayerStack<CardBase> Stack;
 
@@ -27,7 +38,8 @@ namespace SnapCardGameLib.Player_
             worker = new Thread(CheckCard);
             worker.Start();
             this.wh = wh;
-
+                       
+            barrier.AddParticipant();
         }
 
         public void AddCardPile(Array a)
@@ -45,38 +57,69 @@ namespace SnapCardGameLib.Player_
 
         public ICardBase PopCard()
         {
-
-            lock (_lockerPile)
+            Monitor.Enter(_lockerPile);
+            try
+            {
+                RoundCount++;
                 return Stack.pop();
+            }
+            finally
+            {
+                Monitor.Exit(_lockerPile);
+            }
 
         }
 
-      public bool HasCards() => Stack.HasItem();
+      public bool HasCards()  {  return Stack.HasItem(); }
 
       public void CheckCard()
       {
             while (true)
             {
-                if (PreviousCard?.CompareTo(TopPileCard) == 0)
-                {
-                    lock (_lockerPile)
-                        Console.WriteLine("Snap for user" + Name);
-                        Snap(this, new EventArgs());
-                }
-
+                    Thread.Sleep(ReactionTime); //simulate reaction time of player
+                    Console.WriteLine( Name +"Monitor"+PreviousCard?.Rank.ToString() + "==" + TopPileCard?.Rank.ToString()+ "+PlayerRound+" + PlayerRound + "*RoundCount*" + RoundCount);
+                    if (PreviousCard?.CompareTo(TopPileCard) == 0)
+                        if (Monitor.TryEnter(_lockerPile))
+                        {
+                            try
+                            {
+                            Console.WriteLine("Snap " + Name);
+                                    Snap(this, new EventArgs());
+                            }
+                            finally
+                            {
+                                Monitor.Exit(_lockerPile);
+                            }
+                        }
+              
+                barrier.SignalAndWait();
+               
                 wh.WaitOne();
+
             }
         }
 
       public void PileChange(object o, CardArgs carArgs)
       {
-            PreviousCard = TopPileCard;
-            TopPileCard = carArgs.cardBase;    
-      }
+                if (carArgs.cardBase != null)
+                {
+                    PreviousCard = TopPileCard;
+                    TopPileCard = carArgs.cardBase;
+                }
+
+                PlayerRound++;
+                Console.WriteLine("Pile change");
+                Console.WriteLine(PreviousCard?.Rank.ToString() + "==" + TopPileCard?.Rank.ToString());
+            //if(!worker.IsAlive)
+            //     worker.Start();
+
+        }
 
         public void Dispose()
         {
-            worker.Join();             
+            worker.Join();
+            barrier.Dispose();
+            autoResetEvent.Close();
         }
 
     }

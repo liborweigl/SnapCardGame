@@ -10,7 +10,7 @@ namespace SnapCardGameLib.Card
         {
             var tmp = list[i];
             list[i] = list[j];
-            list[i] = tmp;
+            list[j] = tmp;
         }
     }
 

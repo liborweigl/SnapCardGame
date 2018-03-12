@@ -40,6 +40,7 @@ public class CentralPile<T>  : IEnumerable<T>  where T : ICardBase
         public void Empty()
         {
             //CentralList
+            _cardChange?.Invoke(this, new CardArgs());
             CentralCardPile.Clear();
         }
 
