@@ -8,13 +8,9 @@ namespace SnapCardGameLib.Player_
 {
     public class Player : IPlayer , IDisposable
     {
-        public int PlayerId;
         public string Name { get; set; }
-        //public ICardBase PreviousCard { get; set; }
-        public Dictionary<int,ICardBase> TopPileCards { get; set; }
-
-        CentralPile<CardBase> centralPile = new CentralPile<CardBase>();
-
+        public ICardBase PreviousCard { get; set; }
+        public ICardBase TopPileCard { get; set; }
 
         private static readonly object _lockerPile = new object();
 
@@ -47,18 +43,11 @@ namespace SnapCardGameLib.Player_
                 Stack.addCard(_card);
         }
 
-        public void PopCardToCentralPile()
+        public ICardBase PopCard()
         {
 
             lock (_lockerPile)
-            {
-                var card = Stack.pop();
-                centralPile.AddCard(card);
-                if (TopPileCards.ContainsKey(PlayerId))
-                    TopPileCards[PlayerId] = card;
-                else
-                    TopPileCards.Add(PlayerId, card);
-            }
+                return Stack.pop();
 
         }
 
@@ -81,8 +70,8 @@ namespace SnapCardGameLib.Player_
 
       public void PileChange(object o, CardArgs carArgs)
       {
-            //PreviousCard = TopPileCard;
-            //TopPileCard = carArgs.cardBase;    
+            PreviousCard = TopPileCard;
+            TopPileCard = carArgs.cardBase;    
       }
 
         public void Dispose()

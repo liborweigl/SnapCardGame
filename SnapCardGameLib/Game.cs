@@ -10,17 +10,10 @@ namespace SnapCardGameLib
     {
         private CardBox cardBox;
         private Player[] players;
+        CentralPile<CardBase> centralPile = new CentralPile<CardBase>();
 
         EventWaitHandle wh = new AutoResetEvent(false);
-
-        public event EventHandler<CardArgs> CardChange
-        {
-            add { _cardChange += value; }
-            remove { _cardChange -= value; }
-        }
-
-        private EventHandler<CardArgs> _cardChange;
-
+        
 
         public Game()
         {
@@ -31,10 +24,10 @@ namespace SnapCardGameLib
         public void Setup()
         {
             players = new Player[] {
-                                    new Player(wh) { Name = "Test1", PlayerId = 1 },
-                                    new Player(wh) { Name = "Test2", PlayerId = 2 },
-                                    new Player(wh) { Name = "Test3", PlayerId = 3 },
-                                    new Player(wh) { Name = "Test4", PlayerId = 4 }
+                                    new Player(wh) { Name = "Test1" },
+                                    new Player(wh) { Name = "Test2" },
+                                    new Player(wh) { Name = "Test3" },
+                                    new Player(wh) { Name = "Test4" }
                                   };
             Player.Snap += Snap;
 
@@ -46,8 +39,8 @@ namespace SnapCardGameLib
                 i++;
             }
 
-            //foreach (var player in players)
-            //       centralPile.CardChange += player.PileChange;
+            foreach (var player in players)
+                   centralPile.CardChange += player.PileChange;
         }
 
         public void Run()
@@ -59,7 +52,7 @@ namespace SnapCardGameLib
             {
                 if (playersInGame[i % playersInGame.Count].HasCards())
                 {
-                    //centralPile.AddCard((CardBase)playersInGame[i % playersInGame.Count].PopCard());
+                    centralPile.AddCard((CardBase)playersInGame[i % playersInGame.Count].PopCard());
                     wh.Set();                    
                 }
                 else
@@ -73,11 +66,10 @@ namespace SnapCardGameLib
         public void Snap(Object o, EventArgs e)
         {
             Player player = o as Player;
-            // todo move card from other piles
 
-            //foreach (var card in centralPile.TurnOverPile())
-            //    player.AddCard(card);
-            //centralPile.Empty();
+            foreach (var card in centralPile.TurnOverPile())
+                player.AddCard(card);
+            centralPile.Empty();
            
         }
 
