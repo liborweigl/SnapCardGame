@@ -20,12 +20,12 @@ namespace SnapCardGameLib.Player_
         public static EventHandler<EventArgs> TakeCards;
         public static AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 
-        static Barrier barrier = new Barrier(0, (a) => {
-                                                        });
+        static Barrier barrier = new Barrier(0);
 
         private Thread worker;
         private EventWaitHandle wh;
         private PlayerStack<CardBase> Stack;
+        private bool isPlaying = true;
         #endregion 
         public Player(EventWaitHandle wh)
         {
@@ -63,7 +63,7 @@ namespace SnapCardGameLib.Player_
 
       public void CheckCard()
       {
-            while (true)
+            while (isPlaying)
             {
                 Thread.Sleep(ReactionTime);
                 if (PreviousCard?.CompareTo(TopPileCard) == 0)
@@ -98,6 +98,12 @@ namespace SnapCardGameLib.Player_
                     PreviousCard = TopPileCard;
                     TopPileCard = carArgs.cardBase;
                 }
+      }
+
+      public void StopPlaying()
+      {
+            isPlaying = false;
+            barrier.RemoveParticipant();
       }
 
       public void Dispose()
