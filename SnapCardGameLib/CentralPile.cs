@@ -46,7 +46,9 @@ namespace SnapCardGameLib
 
         public Queue<T> TurnOverPile()
         {
-            return new Queue<T>(CentralCardPile.ToArray());
+            var array = CentralCardPile.ToArray();
+            Array.Reverse<T>(array);
+            return new Queue<T>(array);
         }
 
         public IEnumerator<T> GetEnumerator()
