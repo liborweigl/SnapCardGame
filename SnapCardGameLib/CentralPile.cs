@@ -13,7 +13,8 @@ namespace SnapCardGameLib
 
     public class CentralPile<T>  : IEnumerable<T>  where T : ICardBase
     {
-       public event EventHandler<CardArgs> CardChange {
+       #region Properties
+        public event EventHandler<CardArgs> CardChange {
             add { _cardChange += value; }
             remove { _cardChange -= value; }
         }
@@ -22,9 +23,9 @@ namespace SnapCardGameLib
 
 
         Stack<T> CentralCardPile { get; set; }
+        #endregion
 
-        public int RoundNumber { get; set; }
-
+        #region Methods
         public CentralPile()
         {
             CentralCardPile = new Stack<T>();
@@ -57,5 +58,6 @@ namespace SnapCardGameLib
         {
             return this.GetEnumerator();
         }
+        #endregion 
     }
 }

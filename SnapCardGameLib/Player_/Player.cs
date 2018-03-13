@@ -9,6 +9,7 @@ namespace SnapCardGameLib.Player_
 {
     public class Player : IPlayer, IDisposable
     {
+        #region Properties
         public string Name { get; set; }
         public ICardBase PreviousCard { get; set; }
         public ICardBase TopPileCard { get; set; }
@@ -20,14 +21,12 @@ namespace SnapCardGameLib.Player_
         public static AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 
         static Barrier barrier = new Barrier(0, (a) => {
-                                                        autoResetEvent.Set();});
+                                                        });
 
         private Thread worker;
         private EventWaitHandle wh;
-      
-
         private PlayerStack<CardBase> Stack;
-
+        #endregion 
         public Player(EventWaitHandle wh)
         {
             Stack = new PlayerStack<CardBase>();
@@ -38,6 +37,7 @@ namespace SnapCardGameLib.Player_
             barrier.AddParticipant();
         }
 
+        #region Methods
         public void AddCard(ICardBase card)
         {
             var _card = card as CardBase;
@@ -65,7 +65,6 @@ namespace SnapCardGameLib.Player_
       {
             while (true)
             {
-                Console.WriteLine(Name + "Monitor" + PreviousCard?.Rank.ToString() + "==" + TopPileCard?.Rank.ToString() );
                 Thread.Sleep(ReactionTime);
                 if (PreviousCard?.CompareTo(TopPileCard) == 0)
                 {
@@ -85,7 +84,8 @@ namespace SnapCardGameLib.Player_
                     }
                 }
               
-                barrier.SignalAndWait();             
+                barrier.SignalAndWait();
+                autoResetEvent.Set();
                 wh.WaitOne();
 
             }
@@ -111,6 +111,6 @@ namespace SnapCardGameLib.Player_
       {
             Console.WriteLine("Snap!");
       }
-
+      #endregion
     }
 }

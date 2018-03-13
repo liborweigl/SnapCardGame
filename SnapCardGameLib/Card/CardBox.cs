@@ -27,7 +27,7 @@ namespace SnapCardGameLib.Card
             this.ranks = ranks;
             CreateBox();
         }
-
+        #region Methods
         private void CreateBox()
         {
             foreach (var rank in ranks)
@@ -71,7 +71,7 @@ namespace SnapCardGameLib.Card
             }
          
         }
-
+        #endregion
     }
 
 

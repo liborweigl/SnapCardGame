@@ -9,7 +9,7 @@ namespace SnapCardGameLib.Player_
     class PlayerStack<T>  : IEnumerable<T> where T: class, ICardBase
     {
         private Queue<T> CardPile { get; set; }
-
+        #region Methods
         public PlayerStack()
         {
             CardPile = new Queue<T>();
@@ -44,5 +44,6 @@ namespace SnapCardGameLib.Player_
         {
             return this.GetEnumerator();
         }
+        #endregion
     }
 }

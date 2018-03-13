@@ -8,6 +8,7 @@ namespace SnapCardGameLib
 {
     public class Game : IDisposable
     {
+        #region Properties
         private CardBox cardBox;
         private Player[] players;
         CentralPile<CardBase> centralPile = new CentralPile<CardBase>();
@@ -15,7 +16,9 @@ namespace SnapCardGameLib
         EventWaitHandle wh = new ManualResetEvent(false);
       
         private int gameRound;
+        #endregion
 
+        #region Methods
         public Game()
         {
             this.cardBox = new CardBox();
@@ -52,8 +55,8 @@ namespace SnapCardGameLib
             while (playersInGame.Count > 1)
             {
                 var index = gameRound % playersInGame.Count;
-                var a = playersInGame[index].PopCard();
-                    centralPile.AddCard((CardBase)a);
+              
+                    centralPile.AddCard((CardBase)playersInGame[index].PopCard());
                     wh.Set();
                     wh.Reset();
 
@@ -83,6 +86,7 @@ namespace SnapCardGameLib
             foreach (var player in players)
                 player.Dispose();
          }
+        #endregion
 
     }
 }
