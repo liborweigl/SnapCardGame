@@ -56,7 +56,12 @@ namespace SnapCardGameLib
             {
                 var index = gameRound % playersInGame.Count;
               
-                    centralPile.AddCard((CardBase)playersInGame[index].PopCard());
+                centralPile.AddCard((CardBase)playersInGame[index].PopCard());
+
+                wh.Set();
+                wh.Reset();
+
+                Player.autoResetEvent.WaitOne();
 
                 if (!playersInGame[index].HasCards())
                 {
@@ -64,12 +69,7 @@ namespace SnapCardGameLib
                     playersInGame.RemoveAt(index);
                 }
 
-                wh.Set();
-                wh.Reset();
-
                 gameRound++;
-
-                Player.autoResetEvent.WaitOne();
             }
 
         }
