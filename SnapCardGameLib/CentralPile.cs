@@ -11,7 +11,7 @@ namespace SnapCardGameLib
         public ICardBase cardBase;
    }
 
-public class CentralPile<T>  : IEnumerable<T>  where T : ICardBase
+    public class CentralPile<T>  : IEnumerable<T>  where T : ICardBase
     {
        public event EventHandler<CardArgs> CardChange {
             add { _cardChange += value; }
@@ -39,7 +39,6 @@ public class CentralPile<T>  : IEnumerable<T>  where T : ICardBase
 
         public void Empty()
         {
-            //CentralList
             _cardChange?.Invoke(this, new CardArgs());
             CentralCardPile.Clear();
         }

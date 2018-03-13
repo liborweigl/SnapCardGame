@@ -13,7 +13,9 @@ namespace SnapCardGame
         {
             Game game = new Game();
             game.Setup();
-            game.Run();          
+            game.Run();
+            Console.Read();
+            game.Dispose();
         }
     }
 }

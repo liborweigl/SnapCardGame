@@ -24,8 +24,8 @@ namespace SnapCardGameLib.Card
             Suits = new Suit[] { Suit.clubs, Suit.diamonts, Suit.spades, Suit.hearts };
 
             Ranks = new Rank[] { Rank.two, Rank.tree, Rank.four, Rank.five, Rank.six, Rank.seven,
-                                     Rank.eight,Rank.nine, Rank.ten , Rank.jack, Rank.queen, Rank.king ,
-                                     Rank.ace
+                                 Rank.eight,Rank.nine, Rank.ten , Rank.jack, Rank.queen, Rank.king ,
+                                 Rank.ace
             };
        }
     }

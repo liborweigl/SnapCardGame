@@ -15,19 +15,15 @@ namespace SnapCardGameLib.Player_
         public int ReactionTime { get; set; }
 
         static readonly object _lockerPile = new object();
-      
-        public static int RoundCount = 0;
-        public int PlayerRound = 0;
- 
 
-        public static EventHandler<EventArgs> Snap;
-        
+        public static EventHandler<EventArgs> TakeCards;
         public static AutoResetEvent autoResetEvent = new AutoResetEvent(false);
+
         static Barrier barrier = new Barrier(0, (a) => {
-            autoResetEvent.Set();
-        });
-        Thread worker;
-        EventWaitHandle wh;
+                                                        autoResetEvent.Set();});
+
+        private Thread worker;
+        private EventWaitHandle wh;
       
 
         private PlayerStack<CardBase> Stack;
@@ -42,12 +38,6 @@ namespace SnapCardGameLib.Player_
             barrier.AddParticipant();
         }
 
-        public void AddCardPile(Array a)
-        {
-
-        }
-
-
         public void AddCard(ICardBase card)
         {
             var _card = card as CardBase;
@@ -60,12 +50,11 @@ namespace SnapCardGameLib.Player_
             Monitor.Enter(_lockerPile);
             try
             {
-                RoundCount++;
                 return Stack.pop();
             }
             finally
             {
-                Monitor.Exit(_lockerPile);
+               Monitor.Exit(_lockerPile);
             }
 
         }
@@ -76,24 +65,27 @@ namespace SnapCardGameLib.Player_
       {
             while (true)
             {
-                    Thread.Sleep(ReactionTime); //simulate reaction time of player
-                    Console.WriteLine( Name +"Monitor"+PreviousCard?.Rank.ToString() + "==" + TopPileCard?.Rank.ToString()+ "+PlayerRound+" + PlayerRound + "*RoundCount*" + RoundCount);
-                    if (PreviousCard?.CompareTo(TopPileCard) == 0)
-                        if (Monitor.TryEnter(_lockerPile))
+                Console.WriteLine(Name + "Monitor" + PreviousCard?.Rank.ToString() + "==" + TopPileCard?.Rank.ToString() );
+                Thread.Sleep(ReactionTime);
+                if (PreviousCard?.CompareTo(TopPileCard) == 0)
+                {
+                    ShoutSnap();
+                    if (Monitor.TryEnter(_lockerPile))
+                    {
+                        try
                         {
-                            try
-                            {
-                            Console.WriteLine("Snap " + Name);
-                                    Snap(this, new EventArgs());
-                            }
-                            finally
-                            {
-                                Monitor.Exit(_lockerPile);
-                            }
+
+                            TakeCards(this, new EventArgs());
+
                         }
+                        finally
+                        {
+                            Monitor.Exit(_lockerPile);
+                        }
+                    }
+                }
               
-                barrier.SignalAndWait();
-               
+                barrier.SignalAndWait();             
                 wh.WaitOne();
 
             }
@@ -106,21 +98,19 @@ namespace SnapCardGameLib.Player_
                     PreviousCard = TopPileCard;
                     TopPileCard = carArgs.cardBase;
                 }
+      }
 
-                PlayerRound++;
-                Console.WriteLine("Pile change");
-                Console.WriteLine(PreviousCard?.Rank.ToString() + "==" + TopPileCard?.Rank.ToString());
-            //if(!worker.IsAlive)
-            //     worker.Start();
-
-        }
-
-        public void Dispose()
-        {
+      public void Dispose()
+      {
             worker.Join();
             barrier.Dispose();
             autoResetEvent.Close();
-        }
+      }
+
+      private void ShoutSnap()
+      {
+            Console.WriteLine("Snap!");
+      }
 
     }
 }

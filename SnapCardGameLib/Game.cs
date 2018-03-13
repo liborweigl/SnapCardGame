@@ -14,20 +14,20 @@ namespace SnapCardGameLib
 
         EventWaitHandle wh = new ManualResetEvent(false);
       
-        private int round;
+        private int gameRound;
 
         public Game()
         {
             this.cardBox = new CardBox();
             this.cardBox.ShuffledCard();
-            Player.Snap += Snap;
+            Player.TakeCards += TakeCards;
         }
 
         public void Setup()
         {
 
             players = new Player[] {
-                                     new Player(wh) { Name = "Test1", ReactionTime = 15 },
+                                     new Player(wh) { Name = "Test1", ReactionTime = 1 },
                                      new Player(wh) { Name = "Test2", ReactionTime = 1 },
                                      new Player(wh) { Name = "Test3", ReactionTime = 1 },
                                    };
@@ -50,19 +50,17 @@ namespace SnapCardGameLib
             IList<Player> playersInGame = new List<Player>(players);
 
             while (playersInGame.Count > 1)
-            {  
-                
-                var a = playersInGame[round % playersInGame.Count].PopCard();
-
-                Console.WriteLine("Main thred" + a.Rank + "Player" + playersInGame[round % playersInGame.Count].PlayerRound);
+            {
+                var index = gameRound % playersInGame.Count;
+                var a = playersInGame[index].PopCard();
                     centralPile.AddCard((CardBase)a);
                     wh.Set();
                     wh.Reset();
 
-                if (!playersInGame[round % playersInGame.Count].HasCards())
-                     playersInGame.RemoveAt(round % playersInGame.Count);
+                if (!playersInGame[index].HasCards())
+                     playersInGame.RemoveAt(index);
 
-                round++;
+                gameRound++;
 
                 Player.autoResetEvent.WaitOne();
             }
@@ -70,8 +68,7 @@ namespace SnapCardGameLib
         }
 
         
-
-        public void Snap(Object o, EventArgs e)
+        public void TakeCards(Object o, EventArgs e)
         {
             Player player = o as Player;
 
@@ -80,7 +77,12 @@ namespace SnapCardGameLib
             centralPile.Empty();           
         }
 
-        public void Dispose() => wh?.Close();
+        public void Dispose()
+        {
+            wh?.Close();
+            foreach (var player in players)
+                player.Dispose();
+         }
 
     }
 }
